@@ -54,12 +54,18 @@ defmodule CobudgetAdmin.LegacyDb do
   end
 
   def buckets() do
+
+    contrib_q = from c in Contribution,
+    group_by: c.bucket_id,
+    select: %{bucket_id: c.bucket_id, amount: sum(c.amount)}
+
     q = from b in Bucket,
-    left_join: g in Group, on: b.group_id == g.id,
+    join: g in Group, on: b.group_id == g.id,
+    left_join: c in subquery(contrib_q), on: b.id == c.bucket_id,
     order_by: [g.name, b.name],
     select: %{id: b.id, name: b.name, group: g.name, created_at: b.created_at, status: b.status,
               live_at: b.live_at, funded_at: b.funded_at, archived_at: b.archived_at,
-              paid_at: b.paid_at}
+              paid_at: b.paid_at, contributed: c.amount, currency_symbol: g.currency_symbol}
 
     Repo.all(q)
   end
