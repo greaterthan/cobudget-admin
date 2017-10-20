@@ -1,0 +1,41 @@
+<div class="mdl-cell mdl-cell--8-col">
+<div class="mdl-card__title">
+  <h2 class="mdl-card__title-text">Groups (<%= length @groups %>)</h2>
+</div>
+<div>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Name</th>
+      <th>Created</th>
+      <th>Funded buckets</th>
+      <th>Funded</th>
+      <th>Memberships</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for group <- @groups do %>
+    <tr id="<%= group.id %>">
+      <td class="mdl-data-table__cell--non-numeric"><%= group.name  %></td>
+      <td><%= group_age group.created_at %></td>
+      <td><%= group.cnt %></td>
+      <td><%= group.funded_total %> <%= group.currency_code %></td>
+      <td><%= group.confirmed_users %>/<span style="color:red"><%= group.unconfirmed_users %></span></td>
+    </tr>
+    <span for="<%= group.id %>" class="mdl-tooltip">
+       <strong>Name: </strong><%= group.name %><br>
+       <strong>Allocated: </strong><%= group.allocated %><br>
+       <strong>Confirmed users: </strong><%= group.confirmed_users %><br>
+       <strong>Unconfirmed users: </strong><%= group.unconfirmed_users %><br>
+       <strong>Created at: </strong><%= group.created_at %>
+       <strong>Bucket updated: </strong><%= group_updated group.bucket_update %>
+       <strong>Member updated: </strong><%= group_updated group.member_update %>
+       <strong>Allocation updated: </strong><%= group_updated group.allocation_update %>
+       <strong>Comment updated: </strong><%= group_updated group.comment_update %>
+       <strong>Contribution updated: </strong><%= group_updated group.contribution_update %>
+    </span>
+  <% end %>
+  </tbody>
+</table>
+</div>
+</div>
