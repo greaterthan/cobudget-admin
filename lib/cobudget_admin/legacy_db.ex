@@ -69,4 +69,14 @@ defmodule CobudgetAdmin.LegacyDb do
 
     Repo.all(q)
   end
+
+  def bucket_contributions(bucket) do
+    q = from c in Contribution,
+        join: u in User, on: c.user_id == u.id,
+        where: c.bucket_id == ^bucket,
+        order_by: c.created_at,
+        select: %{id: c.id, user: u.name, created_at: c.created_at, amount: c.amount}
+
+    Repo.all(q)
+  end
 end

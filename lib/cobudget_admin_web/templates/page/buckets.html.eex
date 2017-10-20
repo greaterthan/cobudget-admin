@@ -6,19 +6,21 @@
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
       <thead>
         <tr>
+          <th>Id</th>
           <th class="mdl-data-table__cell--non-numeric">Name</th>
           <th class="mdl-data-table__cell--non-numeric">Group</th>
           <th class="mdl-data-table__cell--non-numeric">Status</th>
-          <th >Contributed</th>
+          <th>Contributed</th>
         </tr>
       </thead>
       <tbody>
       <%= for bucket <- @buckets do %>
         <tr id="<%= bucket.id %>">
+          <td><%= bucket.id %></td>
           <td class="mdl-data-table__cell--non-numeric"><%= bucket.name  %></td>
           <td class="mdl-data-table__cell--non-numeric"><%= bucket.group %></td>
           <td class="mdl-data-table__cell--non-numeric"><%= bucket.status %></td>
-          <td><%= bucket.contributed %> <%= bucket.currency_symbol %></td>
+          <td><a href="contributions?bucket_id=<%= bucket.id %>"><%= bucket.contributed %> <%= bucket.currency_symbol %></a></td>
         </tr>
         <span for="<%= bucket.id %>" class="mdl-tooltip">
            <strong>Live: </strong><%= bucket.live_at %><br>

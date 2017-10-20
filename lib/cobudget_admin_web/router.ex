@@ -18,6 +18,7 @@ defmodule CobudgetAdminWeb.Router do
 
     get "/", PageController, :index
     get "/buckets", PageController, :buckets
+    get "/contributions", PageController, :contributions
   end
 
   # Other scopes may use custom stacks.

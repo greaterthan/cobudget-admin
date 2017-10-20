@@ -1,0 +1,25 @@
+<div class="mdl-cell mdl-cell--8-col">
+	<div class="mdl-card__title">
+	  <h2 class="mdl-card__title-text">Contributions (bucket id = <%= @bucket_id %>)</h2>
+	</div>
+    <div>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">User</th>
+          <th class="mdl-data-table__cell--non-numeric">Date</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%= for contribution <- @contributions do %>
+        <tr id="<%= contribution.id %>">
+          <td class="mdl-data-table__cell--non-numeric"><%= contribution.user %></td>
+          <td class="mdl-data-table__cell--non-numeric"><%= contribution.created_at %></td>
+          <td><%= contribution.amount %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
