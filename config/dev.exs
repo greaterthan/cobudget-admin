@@ -36,8 +36,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :dbtest, Dbtest.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "ubuntu",
+  password: "cobudget",
   database: "cobudget_development",
   hostname: "localhost",
   pool_size: 10

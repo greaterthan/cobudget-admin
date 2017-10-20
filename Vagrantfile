@@ -74,6 +74,12 @@ Vagrant.configure("2") do |config|
     sudo -u postgres createuser ubuntu -s
   SHELL
 
+  # Set Password on the default ubuntu user in postgresql
+  # Ecto insists on using a password
+  config.vm.provision "shell", inline: <<-SHELL
+    psql -c "ALTER USER ubuntu PASSWORD 'cobudget';"
+  SHELL
+  
   # Install erlang 20.1
   config.vm.provision "shell", inline: <<-SHELL
     if [[ $(erl +V 2>&1) != Erlang*9.1* ]]
