@@ -26,3 +26,6 @@ erl_crash.dump
 # Vagrant box
 .vagrant
 ubuntu-xenial-16.04-cloudimg-console.log
+
+# OS X
+.DS_Store

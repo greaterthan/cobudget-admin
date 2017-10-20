@@ -1,0 +1,4 @@
+#
+# Set password on the default user
+
+psql -d cobudget_development -c "ALTER USER ubuntu PASSWORD 'cobudget';"

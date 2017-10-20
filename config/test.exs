@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :dbtest, Dbtest.Endpoint,
+config :cobudget_admin, CobudgetAdminWeb.Endpoint,
   http: [port: 4001],
   server: false
 
@@ -10,10 +10,10 @@ config :dbtest, Dbtest.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :dbtest, Dbtest.Repo,
+config :cobudget_admin, CobudgetAdmin.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "dbtest_test",
+  database: "cobudget_admin_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

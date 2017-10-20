@@ -1,4 +1,4 @@
-ExUnit.start
+ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(Dbtest.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(CobudgetAdmin.Repo, :manual)
 

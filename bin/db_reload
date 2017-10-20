@@ -2,4 +2,4 @@
 # Drop and recreate DB
 dropdb cobudget_development
 createdb cobudget_development
-psql -d cobudget_development <cobudget-prod-170909
+psql -d cobudget_development </vagrant/db/cobudget-prod-170909

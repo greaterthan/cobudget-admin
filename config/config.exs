@@ -6,15 +6,15 @@
 use Mix.Config
 
 # General application configuration
-config :dbtest,
-  ecto_repos: [Dbtest.Repo]
+config :cobudget_admin,
+  ecto_repos: [CobudgetAdmin.Repo]
 
 # Configures the endpoint
-config :dbtest, Dbtest.Endpoint,
+config :cobudget_admin, CobudgetAdminWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "41LWiDP+TAu6YnKdp8oENuFt3Dae9lfKvUG5lxTF5Vkwdk3ukrzKSf2UJH95qtZo",
-  render_errors: [view: Dbtest.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Dbtest.PubSub,
+  secret_key_base: "tLu9xzyS5gD/hwDG7+51OPMFRZlF83AinFJQY0Br4NwXsUY4FASicVFi4hVWKXk2",
+  render_errors: [view: CobudgetAdminWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: CobudgetAdmin.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

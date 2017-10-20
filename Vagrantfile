@@ -71,13 +71,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update; 
     apt-get install -y postgresql postgresql-server-dev-9.5
-    sudo -u postgres createuser ubuntu -s
-  SHELL
-
-  # Set Password on the default ubuntu user in postgresql
-  # Ecto insists on using a password
-  config.vm.provision "shell", inline: <<-SHELL
-    psql -c "ALTER USER ubuntu PASSWORD 'cobudget';"
+    sudo -u postgres createuser ubuntu -s; true
   SHELL
   
   # Install erlang 20.1
@@ -114,6 +108,9 @@ Vagrant.configure("2") do |config|
       echo Seems Elixir 1.5.2 is already installed
     fi
   SHELL
+
+  config.vm.provision "shell",
+    inline: "apt-get install inotify-tools"
 
   # Copy gitconfig
   config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
