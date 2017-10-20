@@ -1,0 +1,31 @@
+<div class="mdl-cell mdl-cell--8-col">
+	<div class="mdl-card__title">
+	  <h2 class="mdl-card__title-text">Buckets (<%= length @buckets %>)</h2>
+	</div>
+  <div>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Name</th>
+          <th class="mdl-data-table__cell--non-numeric">Group</th>
+          <th class="mdl-data-table__cell--non-numeric">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%= for bucket <- @buckets do %>
+        <tr id="<%= bucket.id %>">
+          <td class="mdl-data-table__cell--non-numeric"><%= bucket.name  %></td>
+          <td class="mdl-data-table__cell--non-numeric"><%= bucket.group %></td>
+          <td class="mdl-data-table__cell--non-numeric"><%= bucket.status %></td>
+        </tr>
+        <span for="<%= bucket.id %>" class="mdl-tooltip">
+           <strong>Live: </strong><%= bucket.live_at %><br>
+           <strong>Funded: </strong><%= bucket.funded_at %><br>
+           <strong>Archived: </strong><%= bucket.archived_at %><br>
+           <strong>Paid: </strong><%= bucket.paid_at %>
+        </span>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

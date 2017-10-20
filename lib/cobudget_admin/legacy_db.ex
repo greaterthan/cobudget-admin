@@ -52,4 +52,15 @@ defmodule CobudgetAdmin.LegacyDb do
 
     Repo.all(q)
   end
+
+  def buckets() do
+    q = from b in Bucket,
+    left_join: g in Group, on: b.group_id == g.id,
+    order_by: [g.name, b.name],
+    select: %{id: b.id, name: b.name, group: g.name, created_at: b.created_at, status: b.status,
+              live_at: b.live_at, funded_at: b.funded_at, archived_at: b.archived_at,
+              paid_at: b.paid_at}
+
+    Repo.all(q)
+  end
 end
