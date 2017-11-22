@@ -20,7 +20,7 @@ defmodule CobudgetAdmin.Mixfile do
   def application do
     [
       mod: {CobudgetAdmin.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -42,7 +42,8 @@ defmodule CobudgetAdmin.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:timex, "~> 3.1"},
-      {:timex_ecto, "~> 3.0"}
+      {:timex_ecto, "~> 3.0"},
+      {:httpoison, "~> 0.13"}
     ]
   end
 
