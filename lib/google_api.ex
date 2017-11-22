@@ -2,9 +2,9 @@ defmodule GoogleApi do
 
   def auth!(client_id, redirect_uri, scope) do
     response = HTTPoison.get! "https://accounts.google.com/o/oauth2/v2/auth", [],
-      [params: [{"client_id",@client_id},
-                {"redirect_uri","http://localhost:5000/googleauth"},
-                {"scope","profile email"},
+      [params: [{"client_id",client_id},
+                {"redirect_uri",redirect_uri},
+                {"scope",scope},
                 {"response_type","code"}]]            
     {response.body, response.headers, response.status_code}
   end
