@@ -8,14 +8,18 @@ defmodule CobudgetAdminWeb.AuthController do
 
   def login(conn, _params) do
     Logger.debug "Attempting login"
-    {body, headers, status} = GoogleApi.auth!(@client_id, "http://localhost:5000/googleauth", "profile email")
-    conn = %{conn | resp_headers: headers}
-    send_resp(conn, status, body)
+    case GoogleApi.auth!(@client_id, "http://localhost:4000/googleauth", "profile email") do
+      {body, headers, 302} ->
+        conn = %{conn | resp_headers: headers}
+        send_resp(conn, 302, body)
+      {body, _headers, status} ->
+        send_resp(conn, status, body)
+    end
   end
 
   def googleauth(conn, params) do
     Logger.debug "Get an access token"
-    token_response = GoogleApi.token!(@client_id, @client_secret, "http://localhost:5000/googleauth", params["code"])
+    token_response = GoogleApi.token!(@client_id, @client_secret, "http://localhost:4000/googleauth", params["code"])
     info_response = GoogleApi.tokeninfo!(token_response["access_token"])
     case String.split(info_response["email"], "@") do
       [_name, @domain] -> send_resp(conn, 200, "Access authorized")
