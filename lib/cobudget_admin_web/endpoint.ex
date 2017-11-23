@@ -1,5 +1,6 @@
 defmodule CobudgetAdminWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :cobudget_admin
+  require Logger
 
   socket "/socket", CobudgetAdminWeb.UserSocket
 
@@ -33,6 +34,7 @@ defmodule CobudgetAdminWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
+  plug :test
   plug Plug.Session,
     store: :cookie,
     key: "_cobudget_admin_key",
@@ -54,4 +56,25 @@ defmodule CobudgetAdminWeb.Endpoint do
       {:ok, config}
     end
   end
+
+  def test(conn, _opts) do
+    Logger.info "test_auth cookie=#{inspect fetch_cookies(conn).cookies["test_auth"]}"
+    Logger.info "request_path=#{conn.request_path}"
+    Logger.info "path_info=#{inspect conn.path_info}"
+    if Enum.count(conn.path_info) > 0 && Enum.at(conn.path_info,0) == "auth" do
+      conn
+    else
+      case fetch_cookies(conn).cookies["test_auth"] do
+        "ok" ->
+          conn
+        _ ->
+          conn
+          |> put_resp_cookie("next_url",conn.request_path)
+          |> put_resp_header("location","http://localhost:4000/auth/login")
+          |> send_resp(302, "")
+          |> halt()
+      end
+    end
+  end
+
 end

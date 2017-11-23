@@ -19,12 +19,13 @@ defmodule CobudgetAdminWeb.Router do
     get "/", PageController, :index
     get "/buckets", PageController, :buckets
     get "/contributions", PageController, :contributions
-    get "/login", AuthController, :login
-    get "/googleauth", AuthController, :googleauth
+    get "/auth/login", AuthController, :login
+    get "/auth/googleauth", AuthController, :googleauth
   end
 
   # Other scopes may use custom stacks.
   # scope "/api", CobudgetAdminWeb do
   #   pipe_through :api
   # end
+
 end
