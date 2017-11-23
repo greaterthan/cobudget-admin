@@ -70,7 +70,7 @@ defmodule CobudgetAdminWeb.Endpoint do
         _ ->
           conn
           |> put_resp_cookie("next_url",conn.request_path)
-          |> put_resp_header("location","http://localhost:4000/auth/login")
+          |> put_resp_header("location","/auth/login")
           |> send_resp(302, "")
           |> halt()
       end
