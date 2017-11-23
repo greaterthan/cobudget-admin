@@ -21,13 +21,13 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
     end
   end
 
-  defp action(opts), do: Keyword.get(opts,:action)
+  defp action(opts), do: Keyword.get(opts, :action)
 
   defp require_auth(conn, opts) do
     if is_authenticated?(conn) do
       conn
     else
-      redirect_url = Keyword.get(opts,:redirect_url)
+      redirect_url = Keyword.get(opts, :redirect_url)
       Logger.debug "Redirecting to #{redirect_url}. Setting forward URL to #{conn.request_path}"
       conn
       |> put_resp_cookie(@forward_to_cookie, conn.request_path)
@@ -63,7 +63,7 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
   end
 
   defp oauth_redirect_uri(conn, opts) do
-    callback = Keyword.get(opts,:callback)
+    callback = Keyword.get(opts, :callback)
     "http://#{conn.host}:#{conn.port}#{callback}"
   end
 
