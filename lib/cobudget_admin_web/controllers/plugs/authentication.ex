@@ -76,7 +76,7 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
   end
 
   defp delete_authentication(conn) do
-    delete_resp_cookie(conn, @auth_cookie)
+    put_resp_cookie(conn, @auth_cookie, "Authentication failed")
   end
 
   defp redirect_to(conn, url) do
