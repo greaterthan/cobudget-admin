@@ -37,6 +37,7 @@ defmodule CobudgetAdminWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_cobudget_admin_key",
+    max_age: 3600,
     signing_salt: "+r2PtGxe"
 
   plug CobudgetAdminWeb.Router

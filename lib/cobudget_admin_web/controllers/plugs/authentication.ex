@@ -6,7 +6,6 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
   @client_secret "5Yn2YMiYbUt9CLbj75fCJ3ev"
   @domain "greaterthan.finance"
   @login_duration 3600
-  @auth_cookie "auth_cb"
   @forward_to_cookie "next_url"
 
   def init(opts) do
@@ -51,9 +50,9 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
     token_response = GoogleApi.token!(@client_id, @client_secret, oauth_redirect_uri(conn, opts), conn.params["code"])
     info_response = GoogleApi.tokeninfo!(token_response["access_token"])
     case String.split(info_response["email"], "@") do
-      [_name, @domain] -> 
+      [name, @domain] -> 
         conn
-        |> authenticate
+        |> authenticate(name)
         |> redirect_to(conn.cookies[@forward_to_cookie])
       _ -> 
         conn
@@ -68,15 +67,20 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
   end
 
   defp is_authenticated?(conn) do
-    fetch_cookies(conn).cookies[@auth_cookie] == "ok"
+    Logger.debug "Session user = #{inspect get_session(conn,:user)}"
+    Logger.debug "Session exp = #{inspect get_session(conn,:exp)}"
+    Logger.debug "Session expired = #{inspect expired?(get_session(conn,:exp))}"
+    !expired?(get_session(conn,:exp))
   end
 
-  defp authenticate(conn) do
-    put_resp_cookie(conn, @auth_cookie, "ok", max_age: @login_duration)
+  defp authenticate(conn, user) do
+    conn
+    |> put_session(:user, user)
+    |> put_session(:exp, expiry_time(@login_duration))
   end
 
   defp delete_authentication(conn) do
-    put_resp_cookie(conn, @auth_cookie, "Authentication failed")
+    put_session(conn, :exp, 0)
   end
 
   defp redirect_to(conn, url) do
@@ -84,4 +88,11 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
     |> put_resp_header("location",url)
     |> send_resp(302, "")
   end
+
+  defp unix_now(), do: DateTime.to_unix(DateTime.utc_now())
+
+  defp expiry_time(duration), do: unix_now() + duration
+
+  defp expired?(nil), do: :true
+  defp expired?(exp), do: exp < unix_now()
 end
