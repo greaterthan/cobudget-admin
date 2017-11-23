@@ -39,7 +39,6 @@ defmodule CobudgetAdminWeb.Endpoint do
     key: "_cobudget_admin_key",
     signing_salt: "+r2PtGxe"
 
-  plug :auth
   plug CobudgetAdminWeb.Router
 
   @doc """
@@ -56,22 +55,4 @@ defmodule CobudgetAdminWeb.Endpoint do
       {:ok, config}
     end
   end
-
-  def auth(conn, _opts) do
-    if Enum.count(conn.path_info) > 0 && Enum.at(conn.path_info,0) == "auth" do
-      conn
-    else
-      case fetch_cookies(conn).cookies["auth_cb"] do
-        "ok" ->
-          conn
-        _ ->
-          conn
-          |> put_resp_cookie("next_url",conn.request_path)
-          |> put_resp_header("location","/auth/login")
-          |> send_resp(302, "")
-          |> halt()
-      end
-    end
-  end
-
 end

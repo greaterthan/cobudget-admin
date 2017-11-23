@@ -9,18 +9,29 @@ defmodule CobudgetAdminWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :auth do
+    plug CobudgetAdminWeb.Plugs.Authentication, 
+      action: :require_auth, 
+      redirect_url: "/auth/login"
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
+  scope "/auth", CobudgetAdminWeb do
+    pipe_through :browser
+
+    get "/login", Plugs.Authentication, action: :login, callback: "/auth/google/oauth2callback"
+    get "/google/oauth2callback", Plugs.Authentication, action: :callback, callback: "/auth/google/oauth2callback"
+  end
+
   scope "/", CobudgetAdminWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :auth] # Verify user is authenticated
 
     get "/", PageController, :index
     get "/buckets", PageController, :buckets
     get "/contributions", PageController, :contributions
-    get "/auth/login", AuthController, :login
-    get "/auth/googleauth", AuthController, :googleauth
   end
 
   # Other scopes may use custom stacks.
