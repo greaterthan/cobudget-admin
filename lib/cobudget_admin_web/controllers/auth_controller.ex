@@ -29,8 +29,8 @@ defmodule CobudgetAdminWeb.AuthController do
     case String.split(info_response["email"], "@") do
       [_name, @domain] -> 
         conn
-        |> put_resp_cookie("test_auth","ok", max_age: @login_duration)
-        |> put_resp_header("location",fetch_cookies(conn).cookies["next_url"])
+        |> put_resp_cookie("auth_cb","ok", max_age: @login_duration)
+        |> put_resp_header("location",conn.cookies["next_url"])
         |> delete_resp_cookie("next_url")
         |> send_resp(302, "")
       _ -> 

@@ -34,12 +34,12 @@ defmodule CobudgetAdminWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
-  plug :test
   plug Plug.Session,
     store: :cookie,
     key: "_cobudget_admin_key",
     signing_salt: "+r2PtGxe"
 
+  plug :auth
   plug CobudgetAdminWeb.Router
 
   @doc """
@@ -57,14 +57,11 @@ defmodule CobudgetAdminWeb.Endpoint do
     end
   end
 
-  def test(conn, _opts) do
-    Logger.info "test_auth cookie=#{inspect fetch_cookies(conn).cookies["test_auth"]}"
-    Logger.info "request_path=#{conn.request_path}"
-    Logger.info "path_info=#{inspect conn.path_info}"
+  def auth(conn, _opts) do
     if Enum.count(conn.path_info) > 0 && Enum.at(conn.path_info,0) == "auth" do
       conn
     else
-      case fetch_cookies(conn).cookies["test_auth"] do
+      case fetch_cookies(conn).cookies["auth_cb"] do
         "ok" ->
           conn
         _ ->
