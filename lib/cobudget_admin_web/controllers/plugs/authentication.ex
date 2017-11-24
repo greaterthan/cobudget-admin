@@ -41,7 +41,8 @@ defmodule CobudgetAdminWeb.Plugs.Authentication do
         conn = %{conn | resp_headers: headers}
         send_resp(conn, 302, body)
       {body, _headers, status} ->
-        send_resp(conn, status, body)
+        Logger.error "Google loging failed Status=#{status} Body=#{body}"
+        send_resp(conn, 401, "Authorization denied")
     end
   end
 
